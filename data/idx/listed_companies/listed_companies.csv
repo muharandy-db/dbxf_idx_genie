@@ -1,0 +1,21 @@
+ticker,company_name,sector,sub_sector,listing_board,index_membership,ipo_year
+BBCA.JK,Bank Central Asia Tbk,Keuangan,Bank,utama,LQ45,2000
+BBRI.JK,Bank Rakyat Indonesia Tbk,Keuangan,Bank,utama,LQ45,2003
+BMRI.JK,Bank Mandiri Tbk,Keuangan,Bank,utama,LQ45,2003
+BBNI.JK,Bank Negara Indonesia Tbk,Keuangan,Bank,utama,LQ45,1996
+TLKM.JK,Telkom Indonesia Tbk,Infrastruktur,Telekomunikasi,utama,LQ45,1995
+ASII.JK,Astra International Tbk,Perindustrian,Otomotif & Komponen,utama,LQ45,1990
+UNVR.JK,Unilever Indonesia Tbk,Konsumen Primer,Barang Konsumsi,utama,LQ45,1982
+ICBP.JK,Indofood CBP Sukses Makmur Tbk,Konsumen Primer,Makanan & Minuman,utama,LQ45,2010
+INDF.JK,Indofood Sukses Makmur Tbk,Konsumen Primer,Makanan & Minuman,utama,LQ45,1994
+KLBF.JK,Kalbe Farma Tbk,Kesehatan,Farmasi,utama,LQ45,1991
+GOTO.JK,GoTo Gojek Tokopedia Tbk,Teknologi,Aplikasi & Jasa Internet,utama,IDX30,2022
+BREN.JK,Barito Renewables Energy Tbk,Infrastruktur,Energi Terbarukan,utama,-,2023
+BUMI.JK,Bumi Resources Tbk,Energi,Batu Bara,utama,-,1990
+ANTM.JK,Aneka Tambang Tbk,Barang Baku,Logam & Mineral,utama,LQ45,1997
+MDKA.JK,Merdeka Copper Gold Tbk,Barang Baku,Logam & Mineral,utama,LQ45,2015
+ADRO.JK,Adaro Energy Indonesia Tbk,Energi,Batu Bara,utama,LQ45,2008
+PTBA.JK,Bukit Asam Tbk,Energi,Batu Bara,utama,-,2002
+INCO.JK,Vale Indonesia Tbk,Barang Baku,Logam & Mineral,utama,LQ45,1990
+ARTO.JK,Bank Jago Tbk,Keuangan,Bank Digital,utama,-,2016
+CUAN.JK,Petrindo Jaya Kreasi Tbk,Energi,Batu Bara,pengembangan,-,2023
