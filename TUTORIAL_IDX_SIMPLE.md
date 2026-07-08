@@ -26,7 +26,7 @@ Pada exercise ini, Anda akan membuat schema untuk menampung semua tabel di pipel
 
 1. Pada sidebar kiri, klik **Catalog**
 2. Telusuri catalog explorer untuk menemukan catalog Anda (`<your_catalog>`)
-   - Jika Anda perlu membuat catalog sendiri: klik tombol **+** di bagian atas catalog explorer, pilih **Create catalog**, beri nama `<your_username>_catalog`, lalu klik **Create**
+  - Jika Anda perlu membuat catalog sendiri: klik tombol **+** di bagian atas catalog explorer, pilih **Create catalog**, beri nama `<your_username>_catalog`, lalu klik **Create**
 3. Klik catalog Anda untuk meng-expand
 4. Klik tombol **+** di sebelah nama catalog (atau menu kebab **...** > **Create schema**)
 5. Masukkan nama schema: `<your_username>_idx_demo`
@@ -71,9 +71,9 @@ Upload data sampel IDX ke landing volume dengan drag & drop folder secara langsu
 ### Langkah-langkah
 
 1. Di komputer lokal Anda, buka direktori `data/idx/` dari repository. Anda akan melihat **3 folder** berikut:
-   - `listed_companies/` — master data emiten
-   - `daily_prices/` — harga harian OHLCV per saham
-   - `index_prices/` — harga harian IHSG (indeks pasar)
+  - `listed_companies/` — master data emiten
+  - `daily_prices/` — harga harian OHLCV per saham
+  - `index_prices/` — harga harian IHSG (indeks pasar)
 2. Di workspace Databricks, navigasi ke catalog explorer: `<your_catalog>` > `<your_username>_idx_demo` > **Volumes** > `landing`
 3. Klik volume `landing` untuk membukanya
 4. Pilih **ketiga folder** dari direktori lokal `data/idx/` Anda dan **drag & drop** ke landing volume browser
@@ -98,9 +98,9 @@ Sekarang kita akan membuat **Spark Declarative Pipeline** menggunakan workspace 
 
 1. Pada sidebar kiri, klik **New** > **ETL pipeline**
 2. Konfigurasi pipeline:
-   - **Pipeline name:** `<your_username>_idx_ingestion`
-   - **Default catalog:** `<your_catalog>`
-   - **Default schema:** `<your_username>_idx_demo`
+  - **Pipeline name:** `<your_username>_idx_ingestion`
+  - **Default catalog:** `<your_catalog>`
+  - **Default schema:** `<your_username>_idx_demo`
 3. Klik **Create pipeline with AI**
 
 **Genie Code** akan terbuka untuk Anda masukkan prompt.
@@ -164,6 +164,8 @@ Pada tutorial ini kita **lompati silver layer** dan langsung membangun gold laye
 > - Volatilitas saham vs pasar (IHSG): join daily_prices dengan index_prices
 >   per tanggal, bandingkan volatilitas saham dengan volatilitas IHSG
 >   (relative volatility = vol saham / vol pasar) dan korelasi return.
+>
+> Tablenya dikasih prefix 03_ ya. Gak perlu pakai prefix gold
 > ```
 
 4. Tinjau kode SQL yang dihasilkan — pastikan join dan agregasi masuk akal
@@ -215,15 +217,15 @@ Buat data gold layer dapat diakses oleh pengguna bisnis melalui **Genie Space** 
 1. Pada sidebar kiri, klik **Genie**
 2. Klik **New Genie space**
 3. Pilih ketiga tabel gold (materialized view) dari `<your_catalog>.<your_username>_idx_demo`:
-   - Tabel ranking volatilitas per saham
-   - Tabel tren volatilitas bulanan per saham
-   - Tabel volatilitas saham vs pasar (IHSG)
+  - Tabel ranking volatilitas per saham
+  - Tabel tren volatilitas bulanan per saham
+  - Tabel volatilitas saham vs pasar (IHSG)
 4. Setelah space terbuka, klik **Configure** → **Edit** untuk memperbarui:
-   - **Name:** `<your_username> - Analitik Volatilitas Saham IDX`
-   - **Description:**
-     > Genie Space ini menjawab pertanyaan seputar volatilitas harga saham di Bursa
-     > Efek Indonesia (IDX), mencakup ranking volatilitas per saham, tren volatilitas
-     > bulanan, dan perbandingan volatilitas saham terhadap pasar (IHSG).
+  - **Name:** `<your_username> - Analitik Volatilitas Saham IDX`
+  - **Description:**
+    > Genie Space ini menjawab pertanyaan seputar volatilitas harga saham di Bursa
+    > Efek Indonesia (IDX), mencakup ranking volatilitas per saham, tren volatilitas
+    > bulanan, dan perbandingan volatilitas saham terhadap pasar (IHSG).
 5. Klik **Save**
 
 ### Uji Genie Space Anda
@@ -289,18 +291,22 @@ Genie akan membuat dataset internal dan visualisasi secara otomatis berdasarkan 
 
 Selamat! Anda telah menyelesaikan tutorial **IDX Simple — Volatilitas Harga Saham**! Berikut yang sudah Anda bangun:
 
-| Step | Apa yang Anda Bangun | Tool |
-|------|----------------------|------|
-| Exercise 1 | Unity Catalog schema untuk demo Anda | Workspace UI |
-| Exercise 2 | Managed volume untuk landing data mentah | Workspace UI |
-| Exercise 3 | Upload data IDX via drag & drop (3 folder) | Workspace UI |
-| Exercise 4 | Pipeline + bronze layer dengan Auto Loader (1 prompt) | Workspace UI + Genie Code |
+
+| Step       | Apa yang Anda Bangun                                            | Tool                       |
+| ---------- | --------------------------------------------------------------- | -------------------------- |
+| Exercise 1 | Unity Catalog schema untuk demo Anda                            | Workspace UI               |
+| Exercise 2 | Managed volume untuk landing data mentah                        | Workspace UI               |
+| Exercise 3 | Upload data IDX via drag & drop (3 folder)                      | Workspace UI               |
+| Exercise 4 | Pipeline + bronze layer dengan Auto Loader (1 prompt)           | Workspace UI + Genie Code  |
 | Exercise 5 | Gold layer — materialized views analitik volatilitas (1 prompt) | Genie Code di Pipeline IDE |
-| Exercise 6 | Menjalankan end-to-end Spark Declarative Pipeline | Workspace UI |
-| Exercise 7 | Genie Space untuk analitik volatilitas bahasa alami | Workspace UI |
-| Exercise 8 | Dashboard otomatis dari gold layer (1 prompt) | UI + Genie Code |
+| Exercise 6 | Menjalankan end-to-end Spark Declarative Pipeline               | Workspace UI               |
+| Exercise 7 | Genie Space untuk analitik volatilitas bahasa alami             | Workspace UI               |
+| Exercise 8 | Dashboard otomatis dari gold layer (1 prompt)                   | UI + Genie Code            |
+
 
 **Apa Selanjutnya?**
+
 - Coba modifikasi prompt agar Genie menghasilkan analisis volatilitas yang lebih spesifik (mis. volatilitas per sektor, atau beta terhadap IHSG)
 - Ajukan pertanyaan-pertanyaan baru di Genie Space Anda dan amati bagaimana AI menafsirkannya
 - Regenerate data dengan `generate_data.py` untuk memperbarui rentang tanggal, atau tambahkan ticker/indeks lain
+
