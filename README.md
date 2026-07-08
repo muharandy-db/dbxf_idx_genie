@@ -69,7 +69,7 @@ Data mencakup campuran tiga kelompok sehingga kontras volatilitas terlihat sanga
 
 - **Blue chip LQ45** yang relatif stabil — BBCA, BBRI, TLKM, ASII, ICBP, INDF, …
 - **Saham bervolatilitas tinggi** — GOTO, BREN, BUMI, CUAN, ANTM, MDKA, …
-- **Saham kontroversial / "gorengan"** dengan pergerakan ekstrem — BUVA, ZATA, DEWA, BRMS, BNBR, ELTY (grup Bakrie), RAJA, PTRO, PANI (PIK2), dan GIAA (Garuda, restrukturisasi) — beberapa di antaranya bergerak jauh lebih liar dibanding pasar (IHSG).
+- **Saham kontroversial** dengan pergerakan ekstrem — BUVA, ZATA, DEWA, BRMS, BNBR, ELTY (grup Bakrie), RAJA, PTRO, PANI (PIK2) — beberapa di antaranya bergerak jauh lebih liar dibanding pasar (IHSG).
 
 ---
 
