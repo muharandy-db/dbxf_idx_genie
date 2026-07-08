@@ -2,9 +2,9 @@
 
 Tutorial ini adalah **lanjutan** dari [TUTORIAL_IDX_SIMPLE.md](TUTORIAL_IDX_SIMPLE.md). Setelah Anda membangun gold layer volatilitas saham IDX dan sebuah Genie Space, di sini Anda akan menambahkan **dokumen tak terstruktur** (profil/prospektus sebuah emiten) dan menggabungkannya dengan data tabel gold menggunakan **Agent Bricks** di Databricks.
 
-**Ide utamanya:** kita ingin bisa bertanya **dari dokumen** (mis. "Kapan PANI IPO dan siapa pengendalinya?") **sekaligus** bertanya **dari tabel gold** (mis. "Berapa annualized volatility PANI?") dalam **satu agen** yang sama. Agen ini otomatis memilih sumber yang tepat untuk tiap pertanyaan.
+**Ide utamanya:** kita ingin bisa bertanya **dari dokumen** (mis. "Kapan GOTO IPO dan berapa harga IPO-nya?") **sekaligus** bertanya **dari tabel gold** (mis. "Berapa annualized volatility GOTO?") dalam **satu agen** yang sama. Agen ini otomatis memilih sumber yang tepat untuk tiap pertanyaan.
 
-Emiten yang kita pakai sebagai contoh adalah **PT Pantai Indah Kapuk Dua Tbk (PANI)** — salah satu saham kontroversial dan bervolatilitas tinggi di dataset kita, dengan cerita publik yang kaya (transformasi bisnis PIK2, aksi korporasi besar, dan polemik status Proyek Strategis Nasional / PSN).
+Emiten yang kita pakai sebagai contoh adalah **PT GoTo Gojek Tokopedia Tbk (GOTO)** — saham teknologi bervolatilitas tinggi dengan cerita publik yang kaya: hasil penggabungan Gojek dan Tokopedia, salah satu IPO terbesar dalam sejarah Bursa Efek Indonesia (2022), dan penurunan harga yang tajam pasca-IPO.
 
 ## Konsep: 3 Komponen Agent Bricks
 
@@ -17,7 +17,7 @@ Emiten yang kita pakai sebagai contoh adalah **PT Pantai Indah Kapuk Dua Tbk (PA
 Alur yang kita bangun:
 
 ```
-Dokumen PANI (Volume)  ──►  Knowledge Assistant ─┐
+Dokumen GOTO (Volume)  ──►  Knowledge Assistant ─┐
                                                  ├──►  Supervisor Agent  ──►  Anda bertanya
 Tabel gold volatilitas ──►  Genie Space ─────────┘        (routing)
 ```
@@ -41,14 +41,14 @@ Knowledge Assistant membaca dokumen dari sebuah Unity Catalog Volume. Kita buat 
 1. Di catalog explorer, buka `<your_catalog>` > `<your_username>_idx_demo`
 2. Klik **Create** > **Volume**, beri nama `documents`, tipe **Managed**, lalu **Create**
 3. Buka volume `documents`
-4. Dari repo lokal, buka folder `data/documents/pani/` — di dalamnya ada file **`PANI_profil_prospektus.pdf`** (rangkuman profil/prospektus PANI berbasis informasi publik)
+4. Dari repo lokal, buka folder `data/documents/goto/` — di dalamnya ada file **`GOTO_profil_prospektus.pdf`** (rangkuman profil/prospektus GOTO berbasis informasi publik)
 5. **Drag & drop** file tersebut ke volume `documents`
 
 > **Catatan:** File contoh berformat PDF. Knowledge Assistant juga mendukung format teks dan Markdown. Anda bebas menambahkan dokumen lain (mis. laporan tahunan atau prospektus resmi dalam PDF) ke volume yang sama untuk memperkaya jawaban.
 
 ### Validasi
 
-- Telusuri volume `documents` dan pastikan `PANI_profil_prospektus.pdf` sudah ter-upload
+- Telusuri volume `documents` dan pastikan `GOTO_profil_prospektus.pdf` sudah ter-upload
 - Klik file untuk preview isinya
 
 ---
@@ -64,11 +64,11 @@ Knowledge Assistant (KA) meng-index dokumen dan menjawab pertanyaan berbasis isi
 1. Pada sidebar kiri, klik **Agents** (Agent Bricks)
 2. Pilih tile **Knowledge Assistant** > **Build**
 3. Konfigurasi:
-   - **Name:** `<your_username>_pani_docs`
+   - **Name:** `<your_username>_goto_docs`
    - **Description:**
-     > Menjawab pertanyaan seputar profil dan prospektus PT Pantai Indah Kapuk Dua Tbk
-     > (PANI): riwayat IPO, pengendali saham, aksi korporasi, kegiatan usaha, faktor
-     > risiko, dan kronologi isu PSN PIK2.
+     > Menjawab pertanyaan seputar profil dan prospektus PT GoTo Gojek Tokopedia Tbk
+     > (GOTO): riwayat pembentukan dan IPO, struktur kepemilikan, kegiatan usaha, aksi
+     > strategis (mis. Tokopedia–TikTok), faktor risiko, dan kinerja harga saham.
    - **Knowledge source:** pilih volume `/Volumes/<your_catalog>/<your_username>_idx_demo/documents`
 4. (Opsional) Tambahkan **Instructions**, mis.:
    > Jawab dalam Bahasa Indonesia, ringkas dan faktual, mengacu pada isi dokumen. Jika
@@ -83,16 +83,16 @@ Endpoint KA butuh beberapa menit untuk provisioning (status `PROVISIONING` → `
 
 Setelah ONLINE, buka playground KA dan coba:
 
-- "Kapan PANI melakukan IPO dan berapa harga penawaran perdananya?"
-- "Siapa pengendali saham PANI saat ini?"
-- "Aksi korporasi besar apa saja yang dilakukan PANI?"
-- "Apa saja faktor risiko utama PANI?"
-- "Apa yang terjadi dengan status PSN proyek PIK2?"
+- "Kapan GOTO melakukan IPO dan berapa harga penawaran perdananya?"
+- "GOTO adalah hasil penggabungan perusahaan apa saja?"
+- "Berapa dana yang dihimpun GOTO dari IPO?"
+- "Apa saja faktor risiko utama GOTO?"
+- "Apa yang terjadi dengan Tokopedia dan TikTok?"
 
 ### Validasi
 
 - Status endpoint KA **ONLINE**
-- KA menjawab pertanyaan di atas dengan mengacu pada isi dokumen PANI
+- KA menjawab pertanyaan di atas dengan mengacu pada isi dokumen GOTO
 
 ---
 
@@ -107,7 +107,7 @@ Kita akan menggunakan kembali **Genie Space** yang sudah dibuat di [TUTORIAL_IDX
 1. Pada sidebar kiri, klik **Genie**
 2. Pastikan Genie Space `<your_username> - Analitik Volatilitas Saham IDX` ada dan berfungsi
 3. Jika belum ada, buat sekarang: **New Genie space**, pilih ketiga tabel gold di `<your_catalog>.<your_username>_idx_demo` (ranking volatilitas, tren bulanan, volatilitas vs IHSG), beri nama yang sama
-4. Uji cepat: "Berapa annualized volatility PANI?" dan "Bandingkan volatilitas PANI dengan IHSG"
+4. Uji cepat: "Berapa annualized volatility GOTO?" dan "Bandingkan volatilitas GOTO dengan IHSG"
 5. Catat **Genie Space ID** (terlihat di URL Genie Space, atau via menu **Settings**) — akan dipakai di Exercise 4
 
 ### Validasi
@@ -128,17 +128,17 @@ Supervisor Agent (Multi-Agent Supervisor / MAS) menggabungkan beberapa agen dan 
 1. Pada sidebar kiri, klik **Agents** (Agent Bricks)
 2. Pilih tile **Multi-Agent Supervisor** > **Build**
 3. Konfigurasi:
-   - **Name:** `<your_username>_idx_pani_supervisor`
+   - **Name:** `<your_username>_idx_goto_supervisor`
    - **Description:**
-     > Agen gabungan untuk analisis saham PANI: menjawab pertanyaan dari dokumen
-     > profil/prospektus PANI sekaligus pertanyaan analitik volatilitas dari data gold IDX.
+     > Agen gabungan untuk analisis saham GOTO: menjawab pertanyaan dari dokumen
+     > profil/prospektus GOTO sekaligus pertanyaan analitik volatilitas dari data gold IDX.
 4. Tambahkan **dua agen**:
    - **Agen 1 — Dokumen (Knowledge Assistant):**
-     - Pilih KA `<your_username>_pani_docs` yang dibuat di Exercise 2
+     - Pilih KA `<your_username>_goto_docs` yang dibuat di Exercise 2
      - **Description (untuk routing):**
-       > Menjawab pertanyaan tentang profil dan prospektus PANI: riwayat IPO, harga IPO,
-       > pengendali/pemilik saham, aksi korporasi, kegiatan usaha, faktor risiko, dan isu
-       > PSN PIK2.
+       > Menjawab pertanyaan tentang profil dan prospektus GOTO: riwayat pembentukan dan
+       > IPO, harga IPO, dana yang dihimpun, struktur kepemilikan, kegiatan usaha, aksi
+       > strategis (Tokopedia–TikTok), dan faktor risiko.
    - **Agen 2 — Data (Genie Space):**
      - Pilih Genie Space `<your_username> - Analitik Volatilitas Saham IDX` (Exercise 3)
      - **Description (untuk routing):**
@@ -146,10 +146,10 @@ Supervisor Agent (Multi-Agent Supervisor / MAS) menggabungkan beberapa agen dan 
        > annualized volatility per saham, ranking saham paling volatil, tren volatilitas
        > bulanan, dan perbandingan volatilitas saham terhadap pasar (IHSG).
 5. (Opsional) Tambahkan **Instructions** routing, mis.:
-   > Untuk pertanyaan tentang profil, sejarah, kepemilikan, aksi korporasi, risiko, atau
-   > isu regulasi PANI, gunakan agen Dokumen. Untuk pertanyaan angka volatilitas, ranking,
-   > tren, atau perbandingan terhadap IHSG, gunakan agen Data. Jika pertanyaan mencakup
-   > keduanya, ambil informasi dari kedua agen lalu gabungkan jawabannya.
+   > Untuk pertanyaan tentang profil, sejarah, kepemilikan, aksi korporasi, atau risiko
+   > GOTO, gunakan agen Dokumen. Untuk pertanyaan angka volatilitas, ranking, tren, atau
+   > perbandingan terhadap IHSG, gunakan agen Data. Jika pertanyaan mencakup keduanya,
+   > ambil informasi dari kedua agen lalu gabungkan jawabannya.
 6. Klik **Create** / **Build** dan tunggu status endpoint **ONLINE**
 
 ### Validasi
@@ -166,23 +166,23 @@ Supervisor Agent (Multi-Agent Supervisor / MAS) menggabungkan beberapa agen dan 
 Inilah tujuan utama tutorial: bertanya **dari dokumen** dan **dari data gold** dalam satu percakapan. Buka playground Supervisor Agent dan coba pertanyaan berikut.
 
 **Pertanyaan dokumen (dijawab agen KA):**
-- "Kapan PANI IPO dan berapa harga IPO-nya?"
-- "Siapa pengendali saham PANI dan grup usaha apa yang menaunginya?"
-- "Apa itu isu PSN PIK2 dan kapan statusnya dicabut?"
+- "Kapan GOTO IPO dan berapa harga IPO-nya?"
+- "GOTO adalah gabungan perusahaan apa, dan siapa investor besarnya?"
+- "Apa yang terjadi antara Tokopedia dan TikTok pada 2023?"
 
 **Pertanyaan data (dijawab agen Genie):**
-- "Berapa annualized volatility PANI?"
-- "Apakah PANI termasuk saham paling volatil? Tunjukkan rankingnya."
-- "Bandingkan volatilitas PANI dengan pasar (IHSG)."
+- "Berapa annualized volatility GOTO?"
+- "Apakah GOTO termasuk saham paling volatil? Tunjukkan rankingnya."
+- "Bandingkan volatilitas GOTO dengan pasar (IHSG)."
 
 **Pertanyaan gabungan (menggunakan kedua agen):**
-- "Jelaskan siapa pengendali PANI, lalu tunjukkan seberapa volatil sahamnya dibanding IHSG."
-- "Menurut dokumen, apa faktor risiko utama PANI — dan apakah tercermin pada tingkat volatilitas harganya di data?"
-- "Kapan PANI mencatat harga tertinggi menurut dokumen, dan bagaimana tren volatilitas bulanannya belakangan ini?"
+- "Jelaskan tiga lini usaha GOTO, lalu tunjukkan seberapa volatil sahamnya dibanding IHSG."
+- "Menurut dokumen, apa faktor risiko utama GOTO — dan apakah tercermin pada tingkat volatilitas harganya di data?"
+- "Berapa harga IPO GOTO menurut dokumen, dan bagaimana tren volatilitas bulanannya belakangan ini?"
 
 ### Validasi
 
-- Pertanyaan dokumen dijawab dari isi `PANI_profil_prospektus.pdf`
+- Pertanyaan dokumen dijawab dari isi `GOTO_profil_prospektus.pdf`
 - Pertanyaan data dijawab dengan query ke tabel gold (via Genie)
 - Pertanyaan gabungan menunjukkan agen mengambil dari **kedua** sumber dan merangkumnya
 
@@ -194,18 +194,18 @@ Selamat! Anda telah membangun **agen gabungan (structured + unstructured)** untu
 
 | Step | Apa yang Anda Bangun | Tool |
 |------|----------------------|------|
-| Exercise 1 | Volume `documents` + upload dokumen PANI | Workspace UI |
-| Exercise 2 | Knowledge Assistant atas dokumen PANI | Agent Bricks |
+| Exercise 1 | Volume `documents` + upload dokumen GOTO | Workspace UI |
+| Exercise 2 | Knowledge Assistant atas dokumen GOTO | Agent Bricks |
 | Exercise 3 | Genie Space atas tabel gold volatilitas | Workspace UI |
 | Exercise 4 | Supervisor Agent yang menggabungkan KA + Genie | Agent Bricks |
 | Exercise 5 | Tanya-jawab gabungan dokumen + data | Playground |
 
 **Apa Selanjutnya?**
 - Tambahkan dokumen lain (laporan tahunan, prospektus resmi PDF, keterbukaan informasi) ke volume `documents` untuk memperkaya jawaban KA.
-- Tambahkan emiten kontroversial lain (mis. BUVA, DEWA, BRMS) dengan dokumen masing-masing, lalu perluas Supervisor Agent.
+- Tambahkan emiten lain (mis. BREN, ARTO, BUMI) dengan dokumen masing-masing, lalu perluas Supervisor Agent.
 - Sematkan Supervisor Agent ke aplikasi atau dashboard, atau panggil melalui API untuk integrasi lebih lanjut.
 - Tambahkan **certified queries** dan **instructions** di Genie Space agar jawaban data makin akurat.
 
-> **Catatan:** Dokumen PANI pada tutorial ini adalah rangkuman ilustratif dari informasi
+> **Catatan:** Dokumen GOTO pada tutorial ini adalah rangkuman ilustratif dari informasi
 > publik untuk keperluan latihan — bukan dokumen resmi emiten. Untuk dokumen resmi,
-> rujuk [idx.co.id](https://www.idx.co.id).
+> rujuk [idx.co.id](https://www.idx.co.id) serta situs resmi perusahaan.
