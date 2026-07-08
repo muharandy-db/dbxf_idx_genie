@@ -46,9 +46,9 @@ Repository ini berisi data sampel harga saham IDX dalam **3 file CSV** — satu 
 data/
 └── idx/                                       # Bursa Efek Indonesia
     ├── listed_companies/
-    │   └── listed_companies.csv               # master emiten (~20 baris)
+    │   └── listed_companies.csv               # master emiten (~30 baris)
     ├── daily_prices/
-    │   └── daily_prices.csv                   # harga harian OHLCV per saham (~9.600 baris)
+    │   └── daily_prices.csv                   # harga harian OHLCV per saham (~14.400 baris)
     └── index_prices/
         └── index_prices.csv                   # harga harian IHSG / ^JKSE (~476 baris)
 ```
@@ -65,7 +65,11 @@ data/
 
 Kolom `daily_return_pct` (perubahan close harian %) dan `daily_range_pct` (`(high-low)/open*100`) sudah dihitung di data, sehingga agregasi gold dan pertanyaan Genie menjadi langsung.
 
-Data mencakup campuran saham blue chip LQ45 (BBCA, BBRI, TLKM, ASII, …) dan saham bervolatilitas tinggi (GOTO, BREN, BUMI, CUAN, ANTM, MDKA, …) sehingga kontras volatilitas terlihat jelas.
+Data mencakup campuran tiga kelompok sehingga kontras volatilitas terlihat sangat jelas:
+
+- **Blue chip LQ45** yang relatif stabil — BBCA, BBRI, TLKM, ASII, ICBP, INDF, …
+- **Saham bervolatilitas tinggi** — GOTO, BREN, BUMI, CUAN, ANTM, MDKA, …
+- **Saham kontroversial / "gorengan"** dengan pergerakan ekstrem — BUVA, ZATA, DEWA, BRMS, BNBR, ELTY (grup Bakrie), RAJA, PTRO, PANI (PIK2), dan GIAA (Garuda, restrukturisasi) — beberapa di antaranya bergerak jauh lebih liar dibanding pasar (IHSG).
 
 ---
 
